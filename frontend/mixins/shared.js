@@ -163,14 +163,23 @@ const funcs = {
     getDownloadLink(path) {
       return Vue.config.baseURL+'/download&path='+encodeURIComponent(Base64.encode(path))
     },
+    getShareLink(token) {
+      return window.location.origin + window.location.pathname + '?r=/#/share?token=' + encodeURIComponent(token)
+    },
+    getSharedDownloadLink(token, path) {
+      return Vue.config.baseURL + '/sharedownload/' + encodeURIComponent(token) + '&path=' + encodeURIComponent(path)
+    },
     hasPreview(name) {
-      return this.isText(name) || this.isImage(name)
+      return this.isText(name) || this.isImage(name) || this.isVideo(name)
     },
     isText(name) {
       return this.hasExtension(name, store.state.config.editable)
     },
     isImage(name) {
-      return this.hasExtension(name, ['.jpg', '.jpeg', '.gif', '.png', '.bmp', '.svg', '.tiff', '.tif'])
+      return this.hasExtension(name, ['.jpg', '.jpeg', '.gif', '.png', '.bmp', '.svg', '.tiff', '.tif', '.webp'])
+    },
+    isVideo(name) {
+      return this.hasExtension(name, ['.mp4', '.webm', '.ogg', '.ogv', '.mov', '.m4v'])
     },
     hasExtension(name, exts) {
       return !_.isEmpty(exts) && (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$', 'i')).test(name)

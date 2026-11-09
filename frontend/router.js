@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Browser from './views/Browser.vue'
 import Users from './views/Users.vue'
 import Login from './views/Login.vue'
+import ShareView from './views/ShareView.vue'
 import store from './store'
 
 Vue.use(Router)
@@ -19,6 +20,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/share',
+      name: 'share',
+      component: ShareView,
     },
     {
       path: '/users',

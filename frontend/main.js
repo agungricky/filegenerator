@@ -44,8 +44,17 @@ new Vue({
         api.getUser()
           .then((user) => {
             this.$store.commit('initialize')
-            this.$store.commit('setUser', user)
-            this.$router.push('/').catch(() => {})
+            // A public share must never expose the authenticated app shell,
+            // even when the same browser already has an admin session.
+            this.$store.commit('setUser', this.$route.name === 'share' ? {
+              role: 'guest',
+              permissions: [],
+              name: '',
+              username: '',
+            } : user)
+            if (this.$route.name !== 'share') {
+              this.$router.push('/').catch(() => {})
+            }
           })
           .catch(() => {
             this.$notification.open({

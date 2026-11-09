@@ -98,6 +98,38 @@ const api = {
         .catch(error => reject(error))
     })
   },
+  createShare(params) {
+    return new Promise((resolve, reject) => {
+      axios.post('createshare', {
+        path: params.path,
+      })
+        .then(res => resolve(res.data.data))
+        .catch(error => reject(error))
+    })
+  },
+  listShares() {
+    return new Promise((resolve, reject) => {
+      axios.get('listshares')
+        .then(res => resolve(res.data.data))
+        .catch(error => reject(error))
+    })
+  },
+  revokeShare(params) {
+    return new Promise((resolve, reject) => {
+      axios.post('revokeshare/' + encodeURIComponent(params.token))
+        .then(res => resolve(res.data.data))
+        .catch(error => reject(error))
+    })
+  },
+  getShared(params) {
+    return new Promise((resolve, reject) => {
+      axios.get('shared/' + encodeURIComponent(params.token), {
+        params: { path: params.path || '/' },
+      })
+        .then(res => resolve(res.data.data))
+        .catch(error => reject(error))
+    })
+  },
   zipItems(params) {
     return new Promise((resolve, reject) => {
       axios.post('zipitems', {

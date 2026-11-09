@@ -206,6 +206,59 @@ return [
     ],
     [
         'route' => [
+            'POST', '/createshare', '\Filegator\Controllers\ShareController@create',
+        ],
+        'roles' => [
+            'user', 'admin',
+        ],
+        'permissions' => [
+            'read',
+        ],
+    ],
+    [
+        'route' => [
+            'GET', '/listshares', '\Filegator\Controllers\ShareController@list',
+        ],
+        'roles' => [
+            'user', 'admin',
+        ],
+        'permissions' => [
+            'read',
+        ],
+    ],
+    [
+        'route' => [
+            'POST', '/revokeshare/{token}', '\Filegator\Controllers\ShareController@revoke',
+        ],
+        'roles' => [
+            'user', 'admin',
+        ],
+        'permissions' => [
+            'read',
+        ],
+    ],
+    [
+        'route' => [
+            'GET', '/shared/{token}', '\Filegator\Controllers\ShareController@show',
+        ],
+        'roles' => [
+            'guest', 'user', 'admin',
+        ],
+        'permissions' => [
+        ],
+    ],
+    [
+        'route' => [
+            'GET', '/sharedownload/{token}', '\Filegator\Controllers\ShareController@download',
+        ],
+        'roles' => [
+            'guest', 'user', 'admin',
+        ],
+        'permissions' => [
+        ],
+    ],
+    [
+        'route' => [
             'POST', '/batchdownload', '\Filegator\Controllers\DownloadController@batchDownloadCreate',
         ],
         'roles' => [

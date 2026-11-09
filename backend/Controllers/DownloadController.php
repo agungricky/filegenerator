@@ -83,7 +83,11 @@ class DownloadController
         $disposition = HeaderUtils::DISPOSITION_ATTACHMENT;
 
         $download_inline = (array) $this->config->get('download_inline', ['pdf']);
-        if (in_array($extension, $download_inline) || in_array('*', $download_inline)) {
+        $media_extensions = ['mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v'];
+        if (in_array($extension, $download_inline)
+            || in_array('*', $download_inline)
+            || in_array($extension, $media_extensions)
+        ) {
             $disposition = HeaderUtils::DISPOSITION_INLINE;
         }
 

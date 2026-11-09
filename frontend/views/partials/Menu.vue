@@ -20,6 +20,9 @@
         <a v-if="is('admin')" class="navbar-item users" @click="$router.push('/users').catch(() => {})">
           {{ lang('Users') }}
         </a>
+        <a v-if="!is('guest') && can('read')" class="navbar-item shares" @click="shares">
+          {{ lang('Shared links') }}
+        </a>
         <a v-if="is('guest')" class="navbar-item login" @click="login">
           {{ lang('Login') }}
         </a>
@@ -36,6 +39,7 @@
 
 <script>
 import Profile from './Profile'
+import ShareLinks from './ShareLinks'
 import api from '../../api/api'
 
 export default {
@@ -77,6 +81,13 @@ export default {
         parent: this,
         hasModalCard: true,
         component: Profile,
+      })
+    },
+    shares() {
+      this.$modal.open({
+        parent: this,
+        hasModalCard: true,
+        component: ShareLinks,
       })
     },
   }

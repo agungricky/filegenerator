@@ -6,6 +6,9 @@ return [
     'overwrite_on_upload' => false,
     'timezone' => 'UTC', // https://www.php.net/manual/en/timezones.php
     'download_inline' => ['pdf'],
+    'sharing' => [
+        'file' => TEST_TMP_PATH . '/shares.json',
+    ],
 
     'frontend_config' => [
         'app_name' => 'FileGator',

@@ -150,6 +150,9 @@
                 <b-dropdown-item v-if="props.row.type == 'file' && can('download')" v-clipboard:copy="getDownloadLink(props.row.path)" aria-role="listitem">
                   <b-icon icon="clipboard" size="is-small" /> {{ lang('Copy link') }}
                 </b-dropdown-item>
+                <b-dropdown-item v-if="props.row.type == 'dir' && can('read')" aria-role="listitem" @click="share($event, props.row)">
+                  <b-icon icon="share-alt" size="is-small" /> {{ lang('Share folder') }}
+                </b-dropdown-item>
               </b-dropdown>
             </b-table-column>
           </template>
@@ -179,6 +182,8 @@ import Gallery from './partials/Gallery'
 import Search from './partials/Search'
 import Pagination from './partials/Pagination'
 import Upload from './partials/Upload'
+import ShareLink from './partials/ShareLink'
+import VideoPreview from './partials/VideoPreview'
 import api from '../api/api'
 import VueClipboard from 'vue-clipboard2'
 import _ from 'lodash'
@@ -436,6 +441,20 @@ export default {
     download(item) {
       window.open(this.getDownloadLink(item.path), '_blank')
     },
+    share(event, item) {
+      this.isLoading = true
+      api.createShare({ path: item.path })
+        .then(share => {
+          this.$modal.open({
+            parent: this,
+            hasModalCard: true,
+            component: ShareLink,
+            props: { share: share },
+          })
+        })
+        .catch(error => this.handleError(error))
+        .then(() => { this.isLoading = false })
+    },
     search() {
       this.$modal.open({
         parent: this,
@@ -455,6 +474,9 @@ export default {
       }
       if (this.isText(item.path)) {
         modal = Editor
+      }
+      if (this.isVideo(item.path)) {
+        modal = VideoPreview
       }
       this.$modal.open({
         parent: this,
